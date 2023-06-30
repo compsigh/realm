@@ -13,14 +13,14 @@ export default function ThemeSwitcher() {
 
   if (!mounted)
     return (
-      <button className="mt-16 px-4 py-2 text-white dark:text-black bg-black dark:bg-white font-semibold rounded-md">
+      <button className="mt-16 px-4 py-2 text-white dark:text-black bg-black dark:bg-white font-semibold rounded-md mx-8">
         Change Theme
       </button>
     )
 
   return (
     <button
-      className="mt-16 px-4 py-2 text-white dark:text-black bg-black dark:bg-white font-semibold rounded-md"
+      className="mt-16 px-4 py-2 text-white dark:text-black bg-black dark:bg-white font-semibold rounded-md mx-8"
       onClick={() => {
         setTheme(theme === 'light' ? 'dark' : 'light')
       }}

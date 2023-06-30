@@ -1,13 +1,14 @@
 {
-  "name": "home",
-  "author": "Edward Shturman",
-  "description": "A homepage to play around with the Next.js App Router, TypeScript, and Tailwind",
+  "name": "realm-web",
+  "author": "compsigh",
+  "description": "Web app to connect to the Realm bot",
   "version": "0.1.0",
   "license": "UNLICENSED",
   "private": true,
+  "homepage": "https://realm.build",
   "repository": {
     "type": "git",
-    "url": "https://github.com/edwardshturman/home.git"
+    "url": "https://github.com/compsigh/realm-web.git"
   },
   "scripts": {
     "dev": "next dev",
