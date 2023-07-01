@@ -22,13 +22,12 @@ const client = new Client({
 
 // Create collection of commands
 client.commands = new Collection()
-for (const command of commands.default)
-  client.commands.set(command.data.name, command)
+for (const commandSet of Object.values(commands))
+  for (const command of commandSet)
+    client.commands.set(command.data.name, command)
 
-// Log launch, set status
 client.once('ready', () => {
-  console.log('Recap is online!')
-  client.user.setActivity('/help | v0.1.0', { type: ActivityType.Listening })
+  console.log('[Realm] [GLOBAL] Online!')
 })
 
 // Listens for new servers, might do something with this later
