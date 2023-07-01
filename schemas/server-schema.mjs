@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const { Schema, model } = mongoose
+const { Schema, SchemaTypes, model } = mongoose
 
 const serverSchema = new Schema({
   guildId: {
@@ -9,7 +9,6 @@ const serverSchema = new Schema({
   },
   enabledBots: {
     type: Object,
-    required: true,
     default: {
       register: false,
       rollup: false,
@@ -20,35 +19,26 @@ const serverSchema = new Schema({
   },
   lastRefresh: {
     type: Date,
-    required: false
+    required: true
   },
   config: {
     type: Object,
     required: true,
     default: {
       register: {
-        type: Object,
-        required: true,
-        default: {
-          allowPurging: false,
-          events: [{
-            guildId: String,
-            eventName: String,
-            eventDate: String,
-            eventEmoji: String,
-            eventMessageId: String,
-            eventRoleId: String
-          }] // TODO: abstract this into a separate schema
-        }
+        allowPurging: false,
+        events: [{
+          type: SchemaTypes.ObjectId,
+          ref: 'Event',
+        }]
       }
       // TODO: add the other bots' configs
     }
   },
   createdOn: {
     type: Date,
-    required: true,
-    immutable: true,
-    default: () => Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles' }).format(new Date())
+    default: () => Date.now(),
+    immutable: true
   }
 }, { collection: 'servers' })
 
