@@ -3,22 +3,12 @@ import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import { config } from 'dotenv'
 
-// Commands
-import * as commandsList from './commands.mjs'
-
 // Load environment variables
 if (process.env.ENV !== 'PROD')
   config()
 
-// Load commands
-const commands = []
-for (const command of commandsList.default)
-  commands.push(command.data.toJSON())
-
 const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN)
 
-// Deploy slash commands
-;(async () => {
   try {
     console.log('Started refreshing application (/) commands.')
 
@@ -47,8 +37,9 @@ const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN)
       console.log('Deployed commands to development server.')
     }
     console.log('Successfully reloaded application (/) commands.')
+export async function deployCommands (commands) {
   }
   catch (error) {
     console.error(error)
   }
-})()
+}

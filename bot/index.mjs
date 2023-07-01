@@ -2,9 +2,10 @@
 import { Client, GatewayIntentBits, Partials, Collection, ActivityType } from 'discord.js'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
+import { commands } from './commands.mjs'
+import { deployCommands } from './deploy-commands.mjs'
 
-// Commands
-import * as commands from './commands.mjs'
+deployCommands(commands)
 
 // Load environment variables
 if (process.env.ENV !== 'PROD')

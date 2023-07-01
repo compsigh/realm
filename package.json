@@ -15,7 +15,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "bot": "node bot/deploy-commands.mjs && node bot/index.mjs"
+    "bot": "node bot/index.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
