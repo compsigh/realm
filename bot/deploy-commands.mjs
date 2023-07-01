@@ -26,17 +26,16 @@ export async function refresh (guildId, commands) {
     await connect()
     const server = await Server.findOne({ guildId })
     const enabledBots = server.enabledBots
-    const guildCommands = commands.filter(command => command.type !== 'global')
-    const enabledCommands = guildCommands.filter(command => enabledBots[command.type] === true)
+    const enabledCommands = []
+    for (const command of commands)
+      if (enabledBots[command.type] === true)
+        enabledCommands.push(command)
 
-    // Deploy guild commands
-    const enabledCommandsJson = []
-    for (const command of enabledCommands)
-      enabledCommandsJson.push(command.data.toJSON())
     await rest.put(
-      Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId),
-      { body: enabledCommandsJson }
-    )
+      Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId), {
+        body: enabledCommands
+        .map(command => command.data.toJSON())
+      })
     console.log(`[Realm] [${guildId}] Successfully deployed guild slash commands.`)
   }
   catch (error) {
@@ -47,24 +46,19 @@ export async function refresh (guildId, commands) {
 export async function deployCommands (commands) {
   try {
     console.log('[Realm] [GLOBAL] Deploying global slash commands...')
-
-    // Deploy global commands globally
-    const commandsJson = []
-    for (const command of commands.globals)
-      commandsJson.push(command.data.toJSON())
     await rest.put(
-      Routes.applicationCommands(process.env.BOT_CLIENT_ID),
-      { body: commandsJson }
-    )
+      Routes.applicationCommands(process.env.BOT_CLIENT_ID), {
+        body: commands
+        .filter(command => command.type === 'global')
+        .map(command => command.data.toJSON())
+      })
     console.log('[Realm] [GLOBAL] Successfully deployed global slash commands.')
 
-    // Deploy slash commands for all servers
     console.log('[Realm] [GLOBAL] Deploying guild slash commands...')
     await connect()
     const servers = await Server.find({})
     for (const server of servers)
       await refresh(server.guildId, commands)
-
     console.log('[Realm] [GLOBAL] Successfully deployed guild slash commands.')
   }
   catch (error) {

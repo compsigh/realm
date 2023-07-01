@@ -1,7 +1,7 @@
 // Dependencies
 import { Client, GatewayIntentBits, Partials, Collection, ActivityType } from 'discord.js'
-import mongoose from 'mongoose'
 import { config } from 'dotenv'
+import connect from '../functions/db-connect.mjs'
 import { commands } from './commands.mjs'
 import { deployCommands } from './deploy-commands.mjs'
 
@@ -12,7 +12,7 @@ if (process.env.ENV !== 'PROD')
   config()
 
 // Connect to MongoDB
-mongoose.connect(process.env.DB_CONNECTION)
+await connect()
 
 // Launch instance of Discord
 const client = new Client({
@@ -22,9 +22,8 @@ const client = new Client({
 
 // Create collection of commands
 client.commands = new Collection()
-for (const commandSet of Object.values(commands))
-  for (const command of commandSet)
-    client.commands.set(command.data.name, command)
+for (const command of commands)
+  client.commands.set(command.data.name, command)
 
 client.once('ready', () => {
   console.log('[Realm] [GLOBAL] Online!')
