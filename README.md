@@ -1,7 +1,9 @@
-# `compsigh/realm-web`
+# `compsigh/realm`
 
-This repo hosts the web app that users visit to connect and set up their instance of the Realm bot on their Discord servers.
+Realm: a high quality Discord bot toolbox for building communities.
 
-It's built with Next.js, TypeScript, and Tailwind.
+This is a monorepo for the Realm Discord bot and the Realm web app.
+
+The bot is built with Discord.js, and the web app is built with Next.js, TypeScript, and Tailwind.
 
 For any questions, ask in our Discord.
