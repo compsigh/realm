@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import * as Discord from 'discord.js'
 
 const helpCommand = {
+  type: 'global',
   data: new SlashCommandBuilder()
 
     // Help command
