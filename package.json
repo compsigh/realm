@@ -1,20 +1,21 @@
 {
-  "name": "realm-web",
+  "name": "realm",
   "author": "compsigh",
-  "description": "Web app to connect to the Realm bot",
+  "description": "High-quality Discord bot toolbox for building communities",
   "version": "0.1.0",
   "license": "UNLICENSED",
   "private": true,
   "homepage": "https://realm.build",
   "repository": {
     "type": "git",
-    "url": "https://github.com/compsigh/realm-web.git"
+    "url": "https://github.com/compsigh/realm.git"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "bot": "node bot/deploy-commands.mjs && node bot/index.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
@@ -25,6 +26,9 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.0.4",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "next": "13.4.7",
