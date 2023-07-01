@@ -18,6 +18,10 @@ const serverSchema = new Schema({
       router: false
     }
   },
+  lastRefresh: {
+    type: Date,
+    required: false
+  },
   config: {
     type: Object,
     required: true,
