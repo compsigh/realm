@@ -31,7 +31,8 @@ const setupCommand = {
     const setupSuccessEmbed = new Discord.EmbedBuilder()
       .setColor('#FFFFFF')
       .setTitle('Realm setup complete')
-      .setDescription('Realm has been successfully set up! The commands you have access to have been added to the server.')
+      .setDescription('Realm has been successfully set up!\nThe commands you have access to have been added to the server.')
+      .setFooter({ text: 'Realm v0.1.0', iconURL: 'https://app.realm.build/realm-icon.png' })
     await interaction.reply({ embeds: [setupSuccessEmbed], ephemeral: true })
   }
 }
