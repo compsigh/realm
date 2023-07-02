@@ -9,14 +9,14 @@ const setupCommand = {
   type: 'global',
   data: new SlashCommandBuilder()
     .setName('setup')
-    .setDescription('Instantiates Realm in your server'),
+    .setDescription('Instantiate Realm in your server'),
 
   async execute (interaction) {
     // Check if server is already in database
     await connect()
     const server = await Server.findOne({ guildId: interaction.guildId })
     if (server)
-      return await interaction.reply({ content: 'Realm is already set up in this server!', ephemeral: true })
+      return await interaction.reply({ content: 'Realm is already set up in this server!\nFor a list of commands you can run, use `/help`.', ephemeral: true })
 
     // Create new server in database
     const newServer = new Server({

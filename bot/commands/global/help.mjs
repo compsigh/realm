@@ -4,10 +4,8 @@ import * as Discord from 'discord.js'
 const helpCommand = {
   type: 'global',
   data: new SlashCommandBuilder()
-
-    // Help command
     .setName('help')
-    .setDescription('List Recap commands'),
+    .setDescription('List commands and features your server has access to'),
 
   async execute (interaction) {
     // On /help, display help embed
