@@ -10,7 +10,7 @@ const serverSchema = new Schema({
   enabledBots: {
     type: Object,
     default: {
-      register: false,
+      rally: false,
       rollup: false,
       receipt: false,
       recap: false,
@@ -25,7 +25,7 @@ const serverSchema = new Schema({
     type: Object,
     required: true,
     default: {
-      register: {
+      rally: {
         allowPurging: false,
         events: [{
           type: SchemaTypes.ObjectId,
