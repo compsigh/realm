@@ -33,24 +33,23 @@ const helpCommand = {
 
     const botAccessConfig = server.botAccess
     const commandGroupEmbeds = []
-    const commandGroupEmbed = new Discord.EmbedBuilder()
-      .setColor('#FFFFFF')
 
     for (const [bot, enabled] of Object.entries(botAccessConfig)) {
-      if (enabled === true) {
-        const botCommands = []
-        for (const command of commands)
+      if (!enabled) continue
+      const botCommands = []
+      for (const command of commands)
         if (command.type === bot)
-        botCommands.push({
-          name: `\`/${command.data.name}\``,
-          value: command.data.description
-        })
+          botCommands.push({
+            name: `\`/${command.data.name}\``,
+            value: command.data.description
+          })
 
-        const botSentenceCase = bot.charAt(0).toUpperCase() + bot.slice(1)
-        commandGroupEmbed.setAuthor({ name: botSentenceCase, iconURL: `https://app.realm.build/${bot}-icon.png` })
-        commandGroupEmbed.setFields(...botCommands)
-        commandGroupEmbeds.push(commandGroupEmbed)
-      }
+      const botSentenceCase = bot.charAt(0).toUpperCase() + bot.slice(1)
+      const commandGroupEmbed = new Discord.EmbedBuilder()
+        .setColor('#FFFFFF')
+        .setAuthor({ name: botSentenceCase, iconURL: `https://app.realm.build/${bot}-icon.png` })
+        .setFields(...botCommands)
+      commandGroupEmbeds.push(commandGroupEmbed)
     }
 
     const helpEmbed = new Discord.EmbedBuilder()
