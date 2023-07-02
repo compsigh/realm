@@ -25,10 +25,10 @@ export async function refresh (guildId, commands) {
     // Identify guild commands to deploy based on the server's enabled bots
     await connect()
     const server = await Server.findOne({ guildId })
-    const enabledBots = server.enabledBots
+    const botAccess = server.botAccess
     const enabledCommands = []
     for (const command of commands)
-      if (enabledBots[command.type] === true)
+      if (botAccess[command.type] === true)
         enabledCommands.push(command)
 
     await rest.put(

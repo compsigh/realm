@@ -31,12 +31,12 @@ const helpCommand = {
     if (!server)
       return await interaction.reply({ content: 'Realm is not yet set up in this server!\nPlease run `/setup`.', ephemeral: true })
 
-    const enabledBotsConfig = server.enabledBots
+    const botAccessConfig = server.botAccess
     const commandGroupEmbeds = []
     const commandGroupEmbed = new Discord.EmbedBuilder()
       .setColor('#FFFFFF')
 
-    for (const [bot, enabled] of Object.entries(enabledBotsConfig)) {
+    for (const [bot, enabled] of Object.entries(botAccessConfig)) {
       if (enabled === true) {
         const botCommands = []
         for (const command of commands)

@@ -7,7 +7,7 @@ const serverSchema = new Schema({
     required: true,
     immutable: true
   },
-  enabledBots: {
+  botAccess: {
     type: Object,
     default: {
       rally: false,
