@@ -1,28 +1,17 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 
-const rollupCommand = {
+const rollupContextCommand = {
   type: 'rollup',
-  data: new SlashCommandBuilder()
-    .setName('rollup')
-    .setDescription('Move the last x messages to a new thread')
-    .addIntegerOption(messageCount =>
-      messageCount
-        .setName('messages')
-        .setDescription('How many messages; counts backwards from the most recent in this channel')
-        .setRequired(true))
-    .addStringOption(threadTitle =>
-        threadTitle
-          .setName('thread')
-          .setDescription('The name of the thread created')
-          .setRequired(true)),
+  data: new ContextMenuCommandBuilder()
+    .setName('Start thread from here')
+    .setType(3), // TODO: magic number bad
 
   async execute (interaction) {
-    if (interaction.options.getInteger('messages') > 100)
-      return await interaction.reply({ content: 'Sorry, that isn\'t within the 100-message limit! Try something more recent.', ephemeral: true });
-
-    await interaction.deferReply();
-    const reply = await interaction.fetchReply();
-    const messages = await interaction.channel.messages.fetch({ before: reply.id, limit: interaction.options.getInteger('messages') })
+    await interaction.deferReply()
+    const reply = await interaction.fetchReply()
+    const messages = await interaction.channel.messages.fetch({ before: reply.id, limit: 100 })
+    if (!messages.has(interaction.targetId))
+      return await interaction.reply({ content: 'Sorry, that message isn\'t within the 100-message limit! Try something more recent.', ephemeral: true });
 
     // Search for existing Rollup webhook
     let rollupWebhook = {};
@@ -35,17 +24,24 @@ const rollupCommand = {
       rollupWebhook = await interaction.channel.createWebhook({ name: 'Rollup', avatar: 'https://app.realm.build/rollup-icon.png' })
 
     // Create and join thread
+    const threadMessage = await interaction.channel.messages.fetch(interaction.targetId)
+    const threadName = threadMessage.content.length > 50 ? threadMessage.content.slice(0, 50) + '...' : threadMessage.content
     const thread = await interaction.channel.threads.create({
-      name: interaction.options.getString('thread'),
+      name: threadName || 'New thread',
       autoArchiveDuration: 60,
       reason: 'Thread created by ' + interaction.user.tag + ' using Rollup'
     })
     if (thread.joinable) await thread.join()
 
     // Convert the messages collection to an array, and reverse them so they can be sent in the right order
-    const messagesArray = [...messages.values()]
+    const messageKeysArray = [...messages.keys()]
+    const messageValuesArray = [...messages.values()]
+    messageKeysArray.reverse()
+    messageValuesArray.reverse()
+    const sliceStart = messageKeysArray.indexOf(interaction.targetId)
+    const targetValues = messageValuesArray.slice(sliceStart)
 
-    messagesArray.slice().reverse().forEach(message => {
+    targetValues.forEach(message => {
       const attachmentLinks = message.attachments.map(attachment => attachment.proxyURL).join(' ')
       rollupWebhook.send({
         username: message.member.displayName,
@@ -59,8 +55,8 @@ const rollupCommand = {
       message.delete()
     })
 
-    await interaction.editReply('New thread created from ' + messagesArray.length + ' messages!')
+    await interaction.editReply('New thread created from ' + targetValues.length + ' messages!');
   }
 }
 
-export default rollupCommand
+export default rollupContextCommand

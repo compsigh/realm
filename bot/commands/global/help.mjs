@@ -41,7 +41,7 @@ const helpCommand = {
         if (command.type === bot)
           botCommands.push({
             name: `\`/${command.data.name}\``,
-            value: command.data.description
+            value: command.data.description || 'Context command — right click a message to use it!'
           })
 
       const botSentenceCase = bot.charAt(0).toUpperCase() + bot.slice(1)
