@@ -25,13 +25,15 @@ const setupCommand = {
     })
     await newServer.save()
 
-    // Fetch commands the server has access to
-    await refresh(interaction.guildId, commands)
+    // Deploy commands the server has access to
+    // TODO: in order for this to make sense, the server entry will have had to be added to the db prior to running this command; otherwise, it makes more sense to ask for /refresh
+    // await refresh(interaction.guildId, commands)
 
     const setupSuccessEmbed = new Discord.EmbedBuilder()
       .setColor('#FFFFFF')
       .setTitle('Realm setup complete')
-      .setDescription('Realm has been successfully set up!\nThe commands you have access to have been added to the server.')
+      // .setDescription('Realm has been successfully set up!\nThe commands you have access to have been added to the server and `/help`.')
+      .setDescription('Realm has been successfully set up!\nPlease run `/refresh` to update the commands you have access to.')
       .setFooter({ text: 'Realm v0.1.0', iconURL: 'https://app.realm.build/realm-icon.png' })
     await interaction.reply({ embeds: [setupSuccessEmbed], ephemeral: true })
   }
