@@ -31,6 +31,12 @@ const serverSchema = new Schema({
           type: SchemaTypes.ObjectId,
           ref: 'Event',
         }]
+      },
+      rollup: {
+        type: Object,
+        queues: {
+          type: Object
+        }
       }
       // TODO: add the other bots' configs
     }

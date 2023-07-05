@@ -6,6 +6,7 @@ import refreshCommand from './commands/global/refresh.mjs'
 // Rollup
 import rollupCommand from './commands/rollup/rollup.mjs'
 import rollupContextCommand from './commands/rollup/rollup-context.mjs'
+import addToQueueContextCommand from './commands/rollup/add-to-queue.mjs'
 
 // Recap
 import pingCommand from './commands/recap/ping.mjs'
@@ -20,6 +21,7 @@ commands.push(refreshCommand)
 // Rollup
 commands.push(rollupCommand)
 commands.push(rollupContextCommand)
+commands.push(addToQueueContextCommand)
 
 // Recap
 commands.push(pingCommand)
