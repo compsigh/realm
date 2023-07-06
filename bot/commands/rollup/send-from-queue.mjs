@@ -53,11 +53,11 @@ const sendFromQueueCommand = {
     // Send messages to thread
     for (const message of messages) {
       const author = await interaction.guild.members.fetch(message.author.id) // TODO: replicate this for /rollup and context command — or abstract to its own function
-      const attachmentLinks = message.attachments.map(attachment => attachment.proxyURL).join(' ')
       rollupWebhook.send({
         username: author.nickname || author.user.username,
         avatarURL: author.displayAvatarURL(),
-        content: message.content?.length > 0 ? message.content : attachmentLinks,
+        content: message.content?.length > 0 ? message.content : '',
+        files: message.attachments.map(attachment => attachment),
         threadId: thread.id
       })
 
