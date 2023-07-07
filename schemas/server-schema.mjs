@@ -38,7 +38,6 @@ const serverSchema = new Schema({
           type: Object
         }
       }
-      // TODO: add the other bots' configs
     }
   },
   createdOn: {

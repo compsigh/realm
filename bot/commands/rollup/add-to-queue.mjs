@@ -31,7 +31,6 @@ const addToQueueContextCommand = {
         return await interaction.reply({ content: 'You can only add messages from the same channel to your queue.', ephemeral: true })
       if (queue.messageIds.includes(messageId))
         return await interaction.reply({ content: 'That message is already in your queue.', ephemeral: true })
-      // TODO: make sure messages will be parsed chronologically regardless of order added to queue
       await Server.updateOne({ guildId: interaction.guild.id }, { $push: { [`config.rollup.queues.${interaction.user.id}.messageIds`]: messageId } })
     }
 

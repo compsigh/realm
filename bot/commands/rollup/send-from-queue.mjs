@@ -51,8 +51,9 @@ const sendFromQueueCommand = {
     messages.sort((a, b) => a.createdTimestamp - b.createdTimestamp)
 
     // Send messages to thread
+    // TODO: replicate this for /rollup and context command — or abstract to its own function
     for (const message of messages) {
-      const author = await interaction.guild.members.fetch(message.author.id) // TODO: replicate this for /rollup and context command — or abstract to its own function
+      const author = await interaction.guild.members.fetch(message.author.id)
       rollupWebhook.send({
         username: author.nickname || author.user.username,
         avatarURL: author.displayAvatarURL(),

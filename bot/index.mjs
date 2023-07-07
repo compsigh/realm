@@ -45,7 +45,7 @@ client.on('interactionCreate', async interaction => {
   }
   catch (error) {
     console.error(error)
-    await interaction.reply({ // TODO: for deferred replies this will crash the bot
+    await interaction.reply({
       content: 'There was an error while executing this command!',
       ephemeral: true
     })
