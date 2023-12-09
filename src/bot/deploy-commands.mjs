@@ -34,7 +34,7 @@ export async function refresh (guildId, commands) {
     await rest.put(
       Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId), {
         body: enabledCommands
-        .map(command => command.data.toJSON())
+          .map(command => command.data.toJSON())
       })
     console.log(`[Realm] [${guildId}] Successfully deployed guild slash commands.`)
   }
@@ -49,8 +49,8 @@ export async function deployCommands (commands) {
     await rest.put(
       Routes.applicationCommands(process.env.BOT_CLIENT_ID), {
         body: commands
-        .filter(command => command.type === 'global')
-        .map(command => command.data.toJSON())
+          .filter(command => command.type === 'global')
+          .map(command => command.data.toJSON())
       })
     console.log('[Realm] [GLOBAL] Successfully deployed global slash commands.')
 

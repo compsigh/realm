@@ -29,7 +29,7 @@ const serverSchema = new Schema({
         allowPurging: false,
         events: [{
           type: SchemaTypes.ObjectId,
-          ref: 'Event',
+          ref: 'Event'
         }]
       },
       rollup: {

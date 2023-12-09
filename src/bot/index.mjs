@@ -1,5 +1,5 @@
 // Dependencies
-import { Client, GatewayIntentBits, Partials, Collection, ActivityType } from 'discord.js'
+import { Client, GatewayIntentBits, Partials, Collection } from 'discord.js'
 import { config } from 'dotenv'
 import connect from '../functions/db-connect.mjs'
 import { commands } from './commands.mjs'
