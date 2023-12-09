@@ -1,17 +1,17 @@
 // Dependencies
-import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
+import { REST, Routes, Snowflake } from 'discord.js'
 import { config } from 'dotenv'
 import connect from '../functions/db-connect.mjs'
 import Server from '../schemas/server-schema.mjs'
+import type { SlashCommand } from './index.js'
 
 // Load environment variables
 if (process.env.ENV !== 'PROD')
   config()
 
-const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN)
+const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN)
 
-export async function refresh (guildId, commands) {
+export async function refresh (guildId: Snowflake, commands: Map<string, SlashCommand>) {
   try {
     console.log(`[Realm] [${guildId}] Refreshing guild slash commands...`)
 
@@ -26,15 +26,16 @@ export async function refresh (guildId, commands) {
     await connect()
     const server = await Server.findOne({ guildId })
     const botAccess = server.botAccess
-    const enabledCommands = []
-    for (const command of commands)
-      if (botAccess[command.type] === true)
-        enabledCommands.push(command)
+    const enabledCommands: SlashCommand[] = []
+    commands.forEach(slashCommand => {
+      if (botAccess[slashCommand.type] === true)
+        enabledCommands.push(slashCommand)
+    })
 
     await rest.put(
       Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId), {
         body: enabledCommands
-          .map(command => command.data.toJSON())
+          .map(slashCommand => slashCommand.command.toJSON())
       })
     console.log(`[Realm] [${guildId}] Successfully deployed guild slash commands.`)
   }
@@ -43,14 +44,20 @@ export async function refresh (guildId, commands) {
   }
 }
 
-export async function deployCommands (commands) {
+export async function deployCommands (commands: Map<string, SlashCommand>) {
   try {
     console.log('[Realm] [GLOBAL] Deploying global slash commands...')
+
+    const globalSlashCommands: SlashCommand[] = []
+    commands.forEach(slashCommand => {
+      if (slashCommand.type === 'global')
+        globalSlashCommands.push(slashCommand)
+    })
+
     await rest.put(
       Routes.applicationCommands(process.env.BOT_CLIENT_ID), {
-        body: commands
-          .filter(command => command.type === 'global')
-          .map(command => command.data.toJSON())
+        body: globalSlashCommands
+          .map(slashCommand => slashCommand.command.toJSON())
       })
     console.log('[Realm] [GLOBAL] Successfully deployed global slash commands.')
 

@@ -6,15 +6,16 @@
   "license": "UNLICENSED",
   "private": true,
   "homepage": "https://realm.so",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/compsigh/realm.git"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node src/bot/index.mjs",
+    "dev": "nodemon --exec ts-node src/bot/index.ts",
     "build": "tsc",
-    "start": "npm run build && node ./dist/bot/index.mjs",
-    "lint": "eslint ./src/**/*.mjs"
+    "start": "npm run build && node ./dist/bot/index.js",
+    "lint": "eslint ./src/**/*.mjs ./src/**/*.ts"
   },
   "dependencies": {
     "discord.js": "14.14.1",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "20.10.4",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
     "eslint": "8.55.0",
     "eslint-config-standard": "17.1.0",
     "nodemon": "3.0.2",

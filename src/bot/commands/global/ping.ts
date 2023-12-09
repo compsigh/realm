@@ -1,8 +1,9 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
+import { SlashCommandBuilder } from 'discord.js'
+import { SlashCommand } from 'src/bot'
 
-const pingCommand = {
-  type: 'recap',
-  data: new SlashCommandBuilder()
+const pingCommand: SlashCommand = {
+  type: 'global',
+  command: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('TEST FOR SELECTIVE DEPLOYS'),
 

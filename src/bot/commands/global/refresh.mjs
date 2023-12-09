@@ -2,8 +2,8 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import * as Discord from 'discord.js'
 import connect from '../../../functions/db-connect.mjs'
 import Server from '../../../schemas/server-schema.mjs'
-import { commands } from '../../commands.mjs'
-import { refresh } from '../../deploy-commands.mjs'
+import { commands } from '../../commands.js'
+import { refresh } from '../../deploy-commands.js'
 
 const refreshCommand = {
   type: 'global',

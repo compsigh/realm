@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import * as Discord from 'discord.js'
-import { commands } from '../../commands.mjs'
+import { commands } from '../../commands.js'
 import connect from '../../../functions/db-connect.mjs'
-import { refresh } from '../../deploy-commands.mjs'
+import { refresh } from '../../deploy-commands.js'
 import Server from '../../../schemas/server-schema.mjs'
 
 const setupCommand = {
