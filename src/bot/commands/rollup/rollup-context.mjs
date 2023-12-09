@@ -44,7 +44,7 @@ const rollupContextCommand = {
     targetValues.forEach(message => {
       const attachmentLinks = message.attachments.map(attachment => attachment.proxyURL).join(' ')
       rollupWebhook.send({
-        username: message.member.displayName,
+        username: message.author.displayName,
         avatarURL: message.author.displayAvatarURL(),
         content: message.content?.length > 0 ? message.content : attachmentLinks,
         threadId: thread.id
