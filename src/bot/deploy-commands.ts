@@ -11,10 +11,11 @@ if (process.env.ENV !== 'PROD')
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN)
 
-export async function refresh (guildId: Snowflake, commands: Map<string, SlashCommand>) {
+export async function deployGuildCommands (
+  guildId: Snowflake,
+  commands: Map<string, SlashCommand>
+) {
   try {
-    console.log(`[Realm] [${guildId}] Refreshing guild slash commands...`)
-
     // Clear guild commands
     await rest.put(
       Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId),
@@ -32,19 +33,20 @@ export async function refresh (guildId: Snowflake, commands: Map<string, SlashCo
         enabledCommands.push(slashCommand)
     })
 
+    // Deploy guild commands
     await rest.put(
       Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId), {
         body: enabledCommands
           .map(slashCommand => slashCommand.command.toJSON())
       })
-    console.log(`[Realm] [${guildId}] Successfully deployed guild slash commands.`)
+    console.log(`[Realm] [${guildId}] Deployed guild slash commands.`)
   }
   catch (error) {
     console.error(error)
   }
 }
 
-export async function deployCommands (commands: Map<string, SlashCommand>) {
+export async function deployGlobalCommands (commands: Map<string, SlashCommand>) {
   try {
     console.log('[Realm] [GLOBAL] Deploying global slash commands...')
 
@@ -59,14 +61,7 @@ export async function deployCommands (commands: Map<string, SlashCommand>) {
         body: globalSlashCommands
           .map(slashCommand => slashCommand.command.toJSON())
       })
-    console.log('[Realm] [GLOBAL] Successfully deployed global slash commands.')
-
-    console.log('[Realm] [GLOBAL] Deploying guild slash commands...')
-    await connect()
-    const servers = await Server.find({})
-    for (const server of servers)
-      await refresh(server.guildId, commands)
-    console.log('[Realm] [GLOBAL] Successfully deployed guild slash commands.')
+    console.log('[Realm] [GLOBAL] Deployed global slash commands.')
   }
   catch (error) {
     console.error(error)
