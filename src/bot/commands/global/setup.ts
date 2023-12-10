@@ -1,11 +1,9 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
-import * as Discord from 'discord.js'
-import { commands } from '../../commands.js'
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
-import { refresh } from '../../deploy-commands.js'
 import Server from '../../../schemas/server-schema.js'
+import type { SlashCommand } from 'src/bot/index.js'
 
-const setupCommand = {
+const setupCommand: SlashCommand = {
   type: 'global',
   data: new SlashCommandBuilder()
     .setName('setup')
@@ -25,16 +23,11 @@ const setupCommand = {
     })
     await newServer.save()
 
-    // Deploy commands the server has access to
-    // TODO: in order for this to make sense, the server entry will have had to be added to the db prior to running this command; otherwise, it makes more sense to ask for /refresh
-    // await refresh(interaction.guildId, commands)
-
-    const setupSuccessEmbed = new Discord.EmbedBuilder()
+    const setupSuccessEmbed = new EmbedBuilder()
       .setColor('#FFFFFF')
       .setTitle('Realm setup complete')
-      // .setDescription('Realm has been successfully set up!\nThe commands you have access to have been added to the server and `/help`.')
       .setDescription('Realm has been successfully set up!\nPlease run `/refresh` to update the commands you have access to.')
-      .setFooter({ text: 'Realm v0.1.0', iconURL: 'https://app.realm.build/realm-icon.png' })
+      .setFooter({ text: 'Realm v0.1.0', iconURL: 'https://raw.githubusercontent.com/compsigh/realm/main/assets/realm-icon.png' })
     await interaction.reply({ embeds: [setupSuccessEmbed], ephemeral: true })
   }
 }
