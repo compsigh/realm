@@ -1,7 +1,7 @@
 // Dependencies
 import { REST, Routes, Snowflake } from 'discord.js'
 import { config } from 'dotenv'
-import connect from '../functions/db-connect.mjs'
+import connect from '../functions/db-connect.js'
 import Server from '../schemas/server-schema.mjs'
 import type { SlashCommand } from './index.js'
 

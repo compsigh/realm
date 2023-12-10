@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import connect from '../../../functions/db-connect.mjs'
+import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.mjs'
 
 const sendFromQueueCommand = {

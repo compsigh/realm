@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import * as Discord from 'discord.js'
 import { commands } from '../../commands.js'
-import connect from '../../../functions/db-connect.mjs'
+import connect from '../../../functions/db-connect.js'
 import { refresh } from '../../deploy-commands.js'
 import Server from '../../../schemas/server-schema.mjs'
 

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import * as Discord from 'discord.js'
-import connect from '../../../functions/db-connect.mjs'
+import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.mjs'
 import { commands } from '../../commands.js'
 import { deployGuildCommands } from '../../deploy-commands.js'

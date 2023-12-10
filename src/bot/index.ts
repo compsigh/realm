@@ -1,6 +1,6 @@
 import { Client, Events, Partials } from 'discord.js'
 import { config } from 'dotenv'
-import connect from '../functions/db-connect.mjs'
+import connect from '../functions/db-connect.js'
 import { commands } from './commands.js'
 import { deployGlobalCommands } from './deploy-commands.js'
 import type {
