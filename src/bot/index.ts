@@ -7,13 +7,14 @@ import type {
   CommandInteraction,
   GatewayIntentsString,
   InteractionResponse,
-  SlashCommandBuilder
+  SlashCommandBuilder,
+  SlashCommandSubcommandBuilder
 } from 'discord.js'
 
 export type SlashCommand = {
-  type: 'global',
-  data: SlashCommandBuilder,
-  execute: (interaction : CommandInteraction) => Promise<InteractionResponse>
+  type: 'global' | 'rollup',
+  data: SlashCommandBuilder | SlashCommandSubcommandBuilder,
+  execute: (interaction: CommandInteraction) => Promise<InteractionResponse>
 }
 
 if (process.env.ENV !== 'PROD')

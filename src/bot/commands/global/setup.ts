@@ -1,7 +1,7 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.js'
-import type { SlashCommand } from 'src/bot/index.js'
+import type { SlashCommand } from '../../index.js'
 
 const setupCommand: SlashCommand = {
   type: 'global',

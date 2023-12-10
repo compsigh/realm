@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
-import * as Discord from 'discord.js'
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.js'
 import { commands } from '../../commands.js'
@@ -31,7 +30,7 @@ const refreshCommand: SlashCommand = {
     await server.save()
     await deployGuildCommands(interaction.guildId, commands)
 
-    const refreshedEmbed = new Discord.EmbedBuilder()
+    const refreshedEmbed = new EmbedBuilder()
       .setColor('#FFFFFF')
       .setTitle('Realm refreshed')
       .setDescription('Successfully refreshed Realm!\nRun `/help` to see any new commands you have access to.')
