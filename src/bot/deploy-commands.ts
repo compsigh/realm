@@ -2,7 +2,7 @@
 import { REST, Routes, Snowflake } from 'discord.js'
 import { config } from 'dotenv'
 import connect from '../functions/db-connect.js'
-import Server from '../schemas/server-schema.mjs'
+import Server from '../schemas/server-schema.js'
 import type { SlashCommand } from './index.js'
 
 // Load environment variables

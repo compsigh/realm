@@ -3,7 +3,7 @@ import * as Discord from 'discord.js'
 import { commands } from '../../commands.js'
 import connect from '../../../functions/db-connect.js'
 import { refresh } from '../../deploy-commands.js'
-import Server from '../../../schemas/server-schema.mjs'
+import Server from '../../../schemas/server-schema.js'
 
 const setupCommand = {
   type: 'global',

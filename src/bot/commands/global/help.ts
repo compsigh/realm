@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
-import Server from '../../../schemas/server-schema.mjs'
+import Server from '../../../schemas/server-schema.js'
 import { commands } from '../../commands.js'
 import type { APIEmbedField } from 'discord.js'
 import type { SlashCommand } from 'src/bot/index.js'
