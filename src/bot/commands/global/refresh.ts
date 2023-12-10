@@ -3,9 +3,10 @@ import * as Discord from 'discord.js'
 import connect from '../../../functions/db-connect.mjs'
 import Server from '../../../schemas/server-schema.mjs'
 import { commands } from '../../commands.js'
-import { refresh } from '../../deploy-commands.js'
+import { deployGuildCommands } from '../../deploy-commands.js'
+import type { SlashCommand } from './../../index.js'
 
-const refreshCommand = {
+const refreshCommand: SlashCommand = {
   type: 'global',
   data: new SlashCommandBuilder()
     .setName('refresh')
@@ -28,13 +29,13 @@ const refreshCommand = {
 
     server.lastRefresh = Date.now()
     await server.save()
-    await refresh(interaction.guildId, commands)
+    await deployGuildCommands(interaction.guildId, commands)
 
     const refreshedEmbed = new Discord.EmbedBuilder()
       .setColor('#FFFFFF')
       .setTitle('Realm refreshed')
       .setDescription('Successfully refreshed Realm!\nRun `/help` to see any new commands you have access to.')
-    await interaction.reply({ embeds: [refreshedEmbed], ephemeral: true })
+    return await interaction.reply({ embeds: [refreshedEmbed], ephemeral: true })
   }
 }
 

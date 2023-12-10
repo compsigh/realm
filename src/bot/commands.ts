@@ -1,27 +1,21 @@
-import { SlashCommand } from './index.js'
-// Globals
+import type { SlashCommand } from './index.js'
 // import helpCommand from './commands/global/help.mjs'
 // import setupCommand from './commands/global/setup.mjs'
-// import refreshCommand from './commands/global/refresh.mjs'
+import pingCommand from './commands/global/ping.js'
+import refreshCommand from './commands/global/refresh.js'
 
-// Rollup
 // import rollupCommand from './commands/rollup/rollup.mjs'
 // import rollupContextCommand from './commands/rollup/rollup-context.mjs'
 // import addToQueueContextCommand from './commands/rollup/add-to-queue.mjs'
 // import sendFromQueueCommand from './commands/rollup/send-from-queue.mjs'
 
-// Recap
-import pingCommand from './commands/global/ping.js'
-
 const commands: Map<string, SlashCommand> = new Map()
 
-// Globals
 // commands.push(helpCommand)
 // commands.push(setupCommand)
-// commands.push(refreshCommand)
-commands.set(pingCommand.command.name, pingCommand)
+commands.set(pingCommand.data.name, pingCommand)
+commands.set(refreshCommand.data.name, refreshCommand)
 
-// Rollup
 // commands.push(rollupCommand)
 // commands.push(rollupContextCommand)
 // commands.push(addToQueueContextCommand)

@@ -6,13 +6,14 @@ import { deployGlobalCommands } from './deploy-commands.js'
 import type {
   CommandInteraction,
   GatewayIntentsString,
+  InteractionResponse,
   SlashCommandBuilder
 } from 'discord.js'
 
 export type SlashCommand = {
   type: 'global',
-  command: SlashCommandBuilder,
-  execute: (interaction : CommandInteraction) => Promise<void>
+  data: SlashCommandBuilder,
+  execute: (interaction : CommandInteraction) => Promise<InteractionResponse>
 }
 
 if (process.env.ENV !== 'PROD')

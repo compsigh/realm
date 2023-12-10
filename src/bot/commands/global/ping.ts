@@ -1,14 +1,14 @@
 import { SlashCommandBuilder } from 'discord.js'
-import { SlashCommand } from 'src/bot'
+import type { SlashCommand } from './../../index.js'
 
 const pingCommand: SlashCommand = {
   type: 'global',
-  command: new SlashCommandBuilder()
+  data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('TEST FOR SELECTIVE DEPLOYS'),
 
   async execute (interaction) {
-    await interaction.reply({ content: 'Pong!', ephemeral: true })
+    return await interaction.reply({ content: 'Pong!', ephemeral: true })
   }
 }
 

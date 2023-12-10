@@ -37,7 +37,7 @@ export async function deployGuildCommands (
     await rest.put(
       Routes.applicationGuildCommands(process.env.BOT_CLIENT_ID, guildId), {
         body: enabledCommands
-          .map(slashCommand => slashCommand.command.toJSON())
+          .map(slashCommand => slashCommand.data.toJSON())
       })
     console.log(`[Realm] [${guildId}] Deployed guild slash commands.`)
   }
@@ -59,7 +59,7 @@ export async function deployGlobalCommands (commands: Map<string, SlashCommand>)
     await rest.put(
       Routes.applicationCommands(process.env.BOT_CLIENT_ID), {
         body: globalSlashCommands
-          .map(slashCommand => slashCommand.command.toJSON())
+          .map(slashCommand => slashCommand.data.toJSON())
       })
     console.log('[Realm] [GLOBAL] Deployed global slash commands.')
   }
