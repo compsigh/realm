@@ -6,8 +6,8 @@ import refreshCommand from './commands/global/refresh.js'
 
 import rollupCommand from './commands/rollup/rollup.js'
 // import rollupContextCommand from './commands/rollup/rollup-context.mjs'
-// import addToQueueContextCommand from './commands/rollup/add-to-queue.mjs'
-// import sendFromQueueCommand from './commands/rollup/send-from-queue.mjs'
+import addToQueueContextCommand from './commands/rollup/add-to-queue.js'
+import sendFromQueueCommand from './commands/rollup/send-from-queue.js'
 
 const commands: Map<string, SlashCommand> = new Map()
 
@@ -18,7 +18,7 @@ commands.set(refreshCommand.data.name, refreshCommand)
 
 commands.set(rollupCommand.data.name, rollupCommand)
 // commands.push(rollupContextCommand)
-// commands.push(addToQueueContextCommand)
-// commands.push(sendFromQueueCommand)
+commands.set(addToQueueContextCommand.data.name, addToQueueContextCommand)
+commands.set(sendFromQueueCommand.data.name, sendFromQueueCommand)
 
 export { commands }

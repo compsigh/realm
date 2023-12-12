@@ -1,20 +1,25 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
+import { ChannelType, SlashCommandSubcommandBuilder } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.js'
+import type { SlashCommand } from 'src/bot/index.js'
+import type { ChatInputCommandInteraction, Message, Webhook } from 'discord.js'
 
-const sendFromQueueCommand = {
+const sendFromQueueCommand: SlashCommand = {
   type: 'rollup',
-  data: new SlashCommandBuilder()
+  data: new SlashCommandSubcommandBuilder()
     .setName('queue')
     .setDescription('Move the messages in your queue to a new thread')
     .addStringOption(threadTitle =>
-        threadTitle
-          .setName('thread')
-          .setDescription('The name of the thread created')
-          .setRequired(true)),
+      threadTitle
+        .setName('thread')
+        .setDescription('The name of the thread created')
+        .setRequired(true)),
 
-  async execute (interaction) {
-    await interaction.deferReply({ ephemeral: true });
+  async execute (interaction: ChatInputCommandInteraction) {
+    if (interaction.channel.type !== ChannelType.GuildText)
+      return await interaction.reply({ content: 'Sorry, this command only works in text channels!', ephemeral: true })
+
+    await interaction.deferReply({ ephemeral: true })
 
     // Fetch messages
     await connect()
@@ -25,19 +30,19 @@ const sendFromQueueCommand = {
     if (!queue)
       return await interaction.editReply('You don\'t have any messages in your queue!')
 
-    const messages = []
+    const messages: Message[] = []
     for (const messageId of queue.messageIds)
       messages.push(await interaction.channel.messages.fetch(messageId))
 
     // Search for existing Rollup webhook
-    let rollupWebhook = {};
-    const webhooks = await interaction.member.guild.fetchWebhooks()
+    let rollupWebhook: Webhook
+    const webhooks = await interaction.guild.fetchWebhooks()
     for (const webhook of webhooks.values())
       if (webhook.owner.id === process.env.BOT_CLIENT_ID)
         rollupWebhook = await webhook.edit({ channel: interaction.channel })
 
     if (Object.keys(rollupWebhook).length === 0)
-      rollupWebhook = await interaction.channel.createWebhook({ name: 'Rollup', avatar: 'https://app.realm.build/rollup-icon.png' })
+      rollupWebhook = await interaction.channel.createWebhook({ name: 'Rollup', avatar: 'https://raw.githubusercontent.com/compsigh/realm/main/assets/rollup-icon.png' })
 
     // Create and join thread
     const thread = await interaction.channel.threads.create({

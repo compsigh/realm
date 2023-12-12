@@ -8,6 +8,7 @@ import type {
   ContextMenuCommandBuilder,
   GatewayIntentsString,
   InteractionResponse,
+  Message,
   SlashCommandBuilder,
   SlashCommandSubcommandBuilder
 } from 'discord.js'
@@ -15,7 +16,7 @@ import type {
 export type SlashCommand = {
   type: 'global' | 'rollup',
   data: SlashCommandBuilder | SlashCommandSubcommandBuilder | ContextMenuCommandBuilder,
-  execute: (interaction: CommandInteraction) => Promise<InteractionResponse>
+  execute: (interaction: CommandInteraction) => Promise<InteractionResponse | Message>
 }
 
 if (process.env.ENV !== 'PROD')
