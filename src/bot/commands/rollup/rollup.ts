@@ -1,5 +1,5 @@
 import { ChannelType, SlashCommandSubcommandBuilder } from 'discord.js'
-import type { Webhook } from 'discord.js'
+import type { ChatInputCommandInteraction, Webhook } from 'discord.js'
 import type { SlashCommand } from './../../index.js'
 
 const rollupCommand: SlashCommand = {
@@ -18,15 +18,15 @@ const rollupCommand: SlashCommand = {
         .setDescription('The name of the thread created')
         .setRequired(true)),
 
-  async execute (interaction) {
+  async execute (interaction: ChatInputCommandInteraction) {
     if (interaction.channel.type !== ChannelType.GuildText)
       return await interaction.reply({ content: 'Sorry, this command only works in text channels!', ephemeral: true })
-    if (interaction.options.get('messages').value as number > 100)
+    if (interaction.options.getInteger('messages') > 100)
       return await interaction.reply({ content: 'Sorry, that isn\'t within the 100-message limit! Try something more recent.', ephemeral: true })
 
     await interaction.deferReply()
     const reply = await interaction.fetchReply()
-    const messages = await interaction.channel.messages.fetch({ before: reply.id, limit: interaction.options.get('messages').value as number })
+    const messages = await interaction.channel.messages.fetch({ before: reply.id, limit: interaction.options.getInteger('messages') })
 
     // Search for existing Rollup webhook
     let rollupWebhook: Webhook
@@ -41,7 +41,7 @@ const rollupCommand: SlashCommand = {
     // Create and join thread
     const thread = await interaction.channel.threads.create({
       type: ChannelType.PublicThread,
-      name: interaction.options.get('thread').value as string,
+      name: interaction.options.getString('thread'),
       autoArchiveDuration: 60,
       reason: 'Thread created by ' + interaction.user.tag + ' using Rollup'
     })
