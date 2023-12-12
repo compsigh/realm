@@ -5,7 +5,7 @@ import pingCommand from './commands/global/ping.js'
 import refreshCommand from './commands/global/refresh.js'
 
 import rollupCommand from './commands/rollup/rollup.js'
-// import rollupContextCommand from './commands/rollup/rollup-context.mjs'
+import rollupContextCommand from './commands/rollup/rollup-context.js'
 import addToQueueContextCommand from './commands/rollup/add-to-queue.js'
 import sendFromQueueCommand from './commands/rollup/send-from-queue.js'
 
@@ -17,7 +17,7 @@ commands.set(pingCommand.data.name, pingCommand)
 commands.set(refreshCommand.data.name, refreshCommand)
 
 commands.set(rollupCommand.data.name, rollupCommand)
-// commands.push(rollupContextCommand)
+commands.set(rollupContextCommand.data.name, rollupContextCommand)
 commands.set(addToQueueContextCommand.data.name, addToQueueContextCommand)
 commands.set(sendFromQueueCommand.data.name, sendFromQueueCommand)
 

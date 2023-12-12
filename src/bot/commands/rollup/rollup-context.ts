@@ -1,27 +1,34 @@
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
+import { ApplicationCommandType, ChannelType, ContextMenuCommandBuilder } from 'discord.js'
+import type { SlashCommand } from 'src/bot/index.js'
+import type { ContextMenuCommandInteraction, Webhook } from 'discord.js'
 
-const rollupContextCommand = {
+const CONTEXT_TYPE: ApplicationCommandType = ApplicationCommandType.Message
+
+const rollupContextCommand: SlashCommand = {
   type: 'rollup',
   data: new ContextMenuCommandBuilder()
     .setName('Start thread from here')
-    .setType(3), // TODO: magic number bad
+    .setType(CONTEXT_TYPE),
 
-  async execute (interaction) {
+  async execute (interaction: ContextMenuCommandInteraction) {
+    if (interaction.channel.type !== ChannelType.GuildText)
+      return await interaction.reply({ content: 'Sorry, this command only works in text channels!', ephemeral: true })
+
     await interaction.deferReply()
     const reply = await interaction.fetchReply()
     const messages = await interaction.channel.messages.fetch({ before: reply.id, limit: 100 })
     if (!messages.has(interaction.targetId))
-      return await interaction.reply({ content: 'Sorry, that message isn\'t within the 100-message limit! Try something more recent.', ephemeral: true });
+      return await interaction.reply({ content: 'Sorry, that message isn\'t within the 100-message limit! Try something more recent.', ephemeral: true })
 
     // Search for existing Rollup webhook
-    let rollupWebhook = {};
-    const webhooks = await interaction.member.guild.fetchWebhooks()
+    let rollupWebhook: Webhook
+    const webhooks = await interaction.guild.fetchWebhooks()
     for (const webhook of webhooks.values())
       if (webhook.owner.id === process.env.BOT_CLIENT_ID)
         rollupWebhook = await webhook.edit({ channel: interaction.channel })
 
     if (Object.keys(rollupWebhook).length === 0)
-      rollupWebhook = await interaction.channel.createWebhook({ name: 'Rollup', avatar: 'https://app.realm.build/rollup-icon.png' })
+      rollupWebhook = await interaction.channel.createWebhook({ name: 'Rollup', avatar: 'https://raw.githubusercontent.com/compsigh/realm/main/assets/rollup-icon.png' })
 
     // Create and join thread
     const threadMessage = await interaction.channel.messages.fetch(interaction.targetId)
@@ -55,7 +62,7 @@ const rollupContextCommand = {
       message.delete()
     })
 
-    await interaction.editReply('New thread created from ' + targetValues.length + ' messages!');
+    await interaction.editReply('New thread created from ' + targetValues.length + ' messages!')
   }
 }
 
