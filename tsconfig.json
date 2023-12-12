@@ -12,6 +12,6 @@
     "strict": false,
     "sourceMap": true,
   },
-  "include": ["src/**/*.mjs", "src/**/*.ts", "src/**/*.js"],
+  "include": ["src/**/*.ts", "src/**/*.js"],
   "exclude": ["node_modules"]
 }
