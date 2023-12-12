@@ -5,6 +5,7 @@ import { commands } from './commands.js'
 import { deployGlobalCommands } from './deploy-commands.js'
 import type {
   CommandInteraction,
+  ContextMenuCommandBuilder,
   GatewayIntentsString,
   InteractionResponse,
   SlashCommandBuilder,
@@ -13,7 +14,7 @@ import type {
 
 export type SlashCommand = {
   type: 'global' | 'rollup',
-  data: SlashCommandBuilder | SlashCommandSubcommandBuilder,
+  data: SlashCommandBuilder | SlashCommandSubcommandBuilder | ContextMenuCommandBuilder,
   execute: (interaction: CommandInteraction) => Promise<InteractionResponse>
 }
 

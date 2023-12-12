@@ -1,14 +1,17 @@
-import { ContextMenuCommandBuilder } from '@discordjs/builders'
+import { ApplicationCommandType, ContextMenuCommandBuilder, ContextMenuCommandInteraction } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.js'
+import type { SlashCommand } from 'src/bot/index.js'
 
-const addToQueueContextCommand = {
+const CONTEXT_TYPE: ApplicationCommandType = ApplicationCommandType.Message
+
+const addToQueueContextCommand: SlashCommand = {
   type: 'rollup',
   data: new ContextMenuCommandBuilder()
     .setName('Add to queue')
-    .setType(3), // TODO: magic number bad
+    .setType(CONTEXT_TYPE),
 
-  async execute (interaction) {
+  async execute (interaction: ContextMenuCommandInteraction) {
     await connect()
     const server = await Server.findOne({ guildId: interaction.guild.id })
     if (!server)
