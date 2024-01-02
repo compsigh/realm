@@ -51,11 +51,11 @@ const rollupCommand: SlashCommand = {
     const messagesArray = [...messages.values()]
 
     messagesArray.slice().reverse().forEach(message => {
-      const attachmentLinks = message.attachments.map(attachment => attachment.proxyURL).join(' ')
       rollupWebhook.send({
-        username: message.member.displayName,
+        username: message.member.nickname || message.author.displayName,
         avatarURL: message.author.displayAvatarURL(),
-        content: message.content?.length > 0 ? message.content : attachmentLinks,
+        content: message.content?.length > 0 ? message.content : '',
+        files: message.attachments.map(attachment => attachment),
         threadId: thread.id
       })
 

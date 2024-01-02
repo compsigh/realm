@@ -58,19 +58,17 @@ const sendFromQueueCommand: SlashCommand = {
     messages.sort((a, b) => a.createdTimestamp - b.createdTimestamp)
 
     // Send messages to thread
-    // TODO: replicate this for /rollup and context command — or abstract to its own function
     for (const message of messages) {
-      const author = await interaction.guild.members.fetch(message.author.id)
       rollupWebhook.send({
-        username: author.nickname || author.user.username,
-        avatarURL: author.displayAvatarURL(),
+        username: message.member.nickname || message.author.displayName,
+        avatarURL: message.author.displayAvatarURL(),
         content: message.content?.length > 0 ? message.content : '',
         files: message.attachments.map(attachment => attachment),
         threadId: thread.id
       })
 
       // Add all users who authored the messages forwarded to the thread, and delete the original messages
-      thread.members.add(author.user.id)
+      thread.members.add(message.author.id)
       message.delete()
     }
 
