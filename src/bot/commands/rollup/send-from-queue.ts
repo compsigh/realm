@@ -29,6 +29,8 @@ const sendFromQueueCommand: SlashCommand = {
     const queue = server.config.rollup.queues[interaction.user.id]
     if (!queue)
       return await interaction.editReply('You don\'t have any messages in your queue!')
+    if (queue.channelId !== interaction.channel.id)
+      return await interaction.editReply('You can only send messages from the same channel as your queue!')
 
     const messages: Message[] = []
     for (const messageId of queue.messageIds)
