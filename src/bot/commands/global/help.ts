@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from 'discord.js'
+import { ContextMenuCommandBuilder, EmbedBuilder, SlashCommandBuilder } from 'discord.js'
 import connect from '../../../functions/db-connect.js'
 import Server from '../../../schemas/server-schema.js'
 import { commands } from '../../commands.js'
@@ -13,13 +13,19 @@ const helpCommand: SlashCommand = {
 
   async execute (interaction) {
     const globalCommands: APIEmbedField[] = []
-    commands.forEach(command => {
-      if (command.type === 'global')
-        globalCommands.push({
-          name: `\`/${command.data.name}\``,
-          value: command.data.description
-        })
-    })
+    for (const command of commands.values()) {
+      if (command.type !== 'global')
+        continue
+      let description: string
+      if (command.data instanceof ContextMenuCommandBuilder)
+        description = 'Right click a message to use this command!'
+      else
+        description = command.data.description
+      globalCommands.push({
+        name: `\`/${command.data.name}\``,
+        value: description
+      })
+    }
 
     const globalsEmbed = new EmbedBuilder()
       .setColor('#FFFFFF')
@@ -40,10 +46,15 @@ const helpCommand: SlashCommand = {
         continue
       const botCommands = []
       commands.forEach(command => {
+        let description: string
+        if (command.data instanceof ContextMenuCommandBuilder)
+          description = 'Right click a message to use this command!'
+        else
+          description = command.data.description
         if (command.type === bot)
           botCommands.push({
             name: `\`/${command.data.name}\``,
-            value: command.data.description || 'Context command — right click a message to use it!'
+            value: description
           })
       })
 
