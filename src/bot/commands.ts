@@ -8,6 +8,7 @@ import rollupCommand from './commands/rollup/rollup.js'
 import rollupContextCommand from './commands/rollup/rollup-context.js'
 import addToQueueContextCommand from './commands/rollup/add-to-queue.js'
 import sendFromQueueCommand from './commands/rollup/send-from-queue.js'
+import purgeCommand from './commands/rollup/purge.js'
 
 const commands: Map<string, SlashCommand> = new Map()
 
@@ -20,5 +21,6 @@ commands.set(rollupCommand.data.name, rollupCommand)
 commands.set(rollupContextCommand.data.name, rollupContextCommand)
 commands.set(addToQueueContextCommand.data.name, addToQueueContextCommand)
 commands.set(sendFromQueueCommand.data.name, sendFromQueueCommand)
+commands.set(purgeCommand.data.name, purgeCommand)
 
 export { commands }
